@@ -16,7 +16,7 @@ namespace WEBAPI.Configuration
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
 
             services.AddScoped<INotificador, Notificador>();
-            services.AddScoped<IFornecedorService, IFornecedorService>();
+            services.AddScoped<IFornecedorService, FornecedorService>();
             services.AddScoped<IProdutoService, ProdutoService>();
 
             return services;

@@ -82,11 +82,13 @@ namespace WEBAPI.Controllers
             return Ok(fornecedor);
         }
 
+        [NonAction]
         public async Task<FornecedorDTO> ObterFornecedorProdutosEndereco(Guid id)
         {
             return _mapper.Map<FornecedorDTO>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
         }
 
+        [NonAction]
         public async Task<FornecedorDTO> ObterFornecedorEndereco(Guid id)
         {
             return _mapper.Map<FornecedorDTO>(await _fornecedorRepository.ObterFornecedorEndereco(id));
