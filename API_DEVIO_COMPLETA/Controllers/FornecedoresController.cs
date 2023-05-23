@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Data.Data.Repository;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,16 @@ namespace WEBAPI.Controllers
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IMapper _mapper;
         private readonly IFornecedorService _fornecedorService;
+        private readonly IEnderecoRepository _enderecoRepository;
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository, 
-            IMapper mapper, IFornecedorService fornecedorService, 
+            IMapper mapper, IFornecedorService fornecedorService, IEnderecoRepository enderecoRepository,
             INotificador notificador): base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
             _fornecedorService = fornecedorService;
+            _enderecoRepository = enderecoRepository;
         }
 
         [HttpGet]
@@ -72,6 +75,24 @@ namespace WEBAPI.Controllers
             await _fornecedorService.Remover(id);
 
             return CustomResponse();
+        }
+
+        [HttpGet("obter-endereco/{id:guid}")]
+        public async Task<EnderecoDTO> ObterEnderecoPorId(Guid id)
+        {
+            return _mapper.Map<EnderecoDTO>(await _enderecoRepository.ObterPorId(id)); ;
+        }
+
+        [HttpPut("atualizar-endereco/{id:guid}")]
+        public async Task<ActionResult> AtualizarEndereco(Guid id, EnderecoDTO enderecoDTO)
+        {
+            if (id != enderecoDTO.Id) return BadRequest();
+
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoDTO));
+
+            return CustomResponse(enderecoDTO);
         }
 
         [NonAction]
