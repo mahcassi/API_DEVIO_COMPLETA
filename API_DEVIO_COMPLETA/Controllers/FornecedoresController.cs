@@ -14,7 +14,9 @@ namespace WEBAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IFornecedorService _fornecedorService;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, IMapper mapper, IFornecedorService fornecedorService)
+        public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+            IMapper mapper, IFornecedorService fornecedorService, 
+            INotificador notificador): base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
@@ -41,15 +43,11 @@ namespace WEBAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<FornecedorDTO>> Adicionar(FornecedorDTO fornecedorDTO)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var fornecedor = _mapper.Map<Fornecedor>(fornecedorDTO);
+            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorDTO));
 
-            var result = await _fornecedorService.Adicionar(fornecedor);
-
-            if (!result) return BadRequest();
-
-            return Ok(fornecedor);
+            return CustomResponse(fornecedorDTO);
         }
 
         [HttpPut("{id:guid}")]
@@ -57,29 +55,23 @@ namespace WEBAPI.Controllers
         {
             if (id != fornecedorDTO.Id) return BadRequest();
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState); 
 
-            var fornecedor = _mapper.Map<Fornecedor>(fornecedorDTO);
+            await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorDTO));
 
-            var result = await _fornecedorService.Atualizar(fornecedor);
-
-            if (!result) return BadRequest();
-
-            return Ok(fornecedor);
+            return CustomResponse(fornecedorDTO);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<FornecedorDTO>> Excluir(Guid id)
         {
-            var fornecedor = await ObterFornecedorEndereco(id);
+            var fornecedorDTO = await ObterFornecedorEndereco(id);
 
-            if (fornecedor == null) return NotFound();
+            if (fornecedorDTO == null) return NotFound();
 
-            var result = await _fornecedorService.Remover(id);
+            await _fornecedorService.Remover(id);
 
-            if (!result) return BadRequest();
-
-            return Ok(fornecedor);
+            return CustomResponse();
         }
 
         [NonAction]

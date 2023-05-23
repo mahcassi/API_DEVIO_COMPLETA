@@ -1,5 +1,6 @@
 
 using Data.Data.Context;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEBAPI.Configuration;
 
@@ -25,6 +26,11 @@ namespace WEBAPI
             });
 
             builder.Services.AddAutoMapper(typeof(Program));
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             builder.Services.ResolveDependencies();
 
