@@ -32,6 +32,16 @@ namespace WEBAPI
                 options.SuppressModelStateInvalidFilter = true;
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             builder.Services.ResolveDependencies();
 
             var app = builder.Build();
@@ -42,6 +52,8 @@ namespace WEBAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowOrigin"); 
 
             app.UseHttpsRedirection();
 
