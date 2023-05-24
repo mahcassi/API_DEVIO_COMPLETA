@@ -54,7 +54,7 @@ namespace WEBAPI.Controllers
             }
         }
 
-        private void NotificarErro(string mensagem)
+        protected void NotificarErro(string mensagem)
         {
             _notificador.Handle(new Notificacao(mensagem));
         }
