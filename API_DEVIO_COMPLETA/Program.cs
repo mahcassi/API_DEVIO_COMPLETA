@@ -1,6 +1,6 @@
 
+using API_DEVIO_COMPLETA.Configuration;
 using Data.Data.Context;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEBAPI.Configuration;
 
@@ -11,12 +11,9 @@ namespace WEBAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
           
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -27,22 +24,9 @@ namespace WEBAPI
 
             builder.Services.AddAutoMapper(typeof(Program));
 
-            builder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowOrigin", builder =>
-                {
-                    builder.WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
-
             builder.Services.ResolveDependencies();
+
+            builder.Services.WebApiConfig();
 
             var app = builder.Build();
 
@@ -53,12 +37,7 @@ namespace WEBAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowOrigin"); 
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
+            app.UseMvcConfiguration();
 
             app.MapControllers();
 
