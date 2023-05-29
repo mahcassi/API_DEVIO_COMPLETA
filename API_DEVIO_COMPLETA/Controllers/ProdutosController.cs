@@ -76,6 +76,38 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoImagemDTO);
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoDTO produtoDTO)
+        {
+            if (id != produtoDTO.Id) return NotFound();
+
+            var produtoAtualizacao = await ObterProduto(id);
+            produtoDTO.Imagem = produtoAtualizacao.Imagem;
+
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            if (produtoDTO.ImagemUpload != null)
+            {
+                var imagemNome = Guid.NewGuid() + "_" + produtoDTO.Imagem;
+
+                if(!UploadArquivo(produtoDTO.ImagemUpload, imagemNome))
+                {
+                    return CustomResponse(ModelState);
+                }
+
+                produtoAtualizacao.Imagem = imagemNome;
+            }
+
+            produtoAtualizacao.Nome = produtoDTO.Nome;
+            produtoAtualizacao.Descricao = produtoDTO.Descricao;
+            produtoAtualizacao.Valor = produtoDTO.Valor;
+            produtoAtualizacao.Ativo = produtoDTO.Ativo;
+
+           await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+            return CustomResponse(produtoDTO);
+        }
+
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoDTO>> Excluir(Guid id)
