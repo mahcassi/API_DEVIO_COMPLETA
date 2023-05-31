@@ -22,6 +22,8 @@ namespace WEBAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            builder.Services.AddIdentityConfiguration(builder.Configuration);
+
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.ResolveDependencies();
