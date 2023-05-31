@@ -29,7 +29,6 @@ namespace API_DEVIO_COMPLETA.Configuration
 
             app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
-            app.UseAuthorization();
 
             return app;
         }
