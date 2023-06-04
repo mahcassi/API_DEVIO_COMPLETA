@@ -39,16 +39,16 @@ namespace API_DEVIO_COMPLETA.Configuration
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
+                x.RequireHttpsMetadata = true; //- Define se a autenticação requer metadados HTTPS. Se definido como true, o servidor exigirá que as solicitações sejam feitas através de uma conexão segura (HTTPS).
+                x.SaveToken = true; //- Indica se o token JWT recebido deve ser armazenado no contexto de autenticação. Isso pode ser útil para recuperar informações do token posteriormente.
                 x.TokenValidationParameters = new TokenValidationParameters 
                 { 
-                    ValidateIssuerSigningKey = true, // valida se quem esta emitindo é o mesmo que vc recebeu no token
+                    ValidateIssuerSigningKey = true, // verificar se a chave usada para assinar o token JWT é válida, significa que o sistema irá verificar se a chave usada para assinar o token é a mesma chave que estamos usando para verificar a assinatura.
                     IssuerSigningKey = new SymmetricSecurityKey(key), // configurando a chave
-                    ValidateIssuer = true, // valida o issuer conforme o nome do emissor
-                    ValidateAudience = true, // valida onde o token é valido
-                    ValidAudience = appSettings.ValidoEm, // apontando que é o audience
-                    ValidIssuer = appSettings.Emissor // apontando quem é o emissor
+                    ValidateIssuer = true, //  Indica se o emissor (issuer) do token deve ser validado..
+                    ValidateAudience = true, //  ndica se a audiência (audience) do token deve ser validada
+                    ValidAudience = appSettings.ValidoEm, // apontando que é a audience válida do token.
+                    ValidIssuer = appSettings.Emissor // apontando quem é o emissor válido do token.
                 };
 
             });
