@@ -85,7 +85,7 @@ namespace API_DEVIO_COMPLETA.Controllers
         }
 
 
-        private async Task<string> GerarJsonWebToken(string email)
+        private async Task<LoginResponseDTO> GerarJsonWebToken(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var claims = await _userManager.GetClaimsAsync(user);
@@ -120,7 +120,19 @@ namespace API_DEVIO_COMPLETA.Controllers
             var encodedToken = tokenHandler.WriteToken(token); //retorna uma versão codificada do token como uma string.
                                                                //Isso significa que o token
                                                                //é convertido em uma sequência de caracteres seguros e legíveis.
-            return encodedToken;
+            var response = new LoginResponseDTO { 
+                AccessToken = encodedToken, 
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
+                User = new UserTokenDTO
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Claims = claims.Select(c => new ClaimDTO { Type = c.Type, Value = c.Value}).Where(c => c.Type == "Fornecedor")
+                }
+            };
+
+            return response;
+
         }
 
         private static long ToUnixEpochDate(DateTime date)
