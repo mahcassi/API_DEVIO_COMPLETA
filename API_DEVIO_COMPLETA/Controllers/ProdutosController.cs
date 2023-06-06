@@ -3,6 +3,7 @@ using API_DEVIO_COMPLETA.Extensions;
 using AutoMapper;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Intrinsics.X86;
 using WEBAPI.Controllers;
@@ -10,6 +11,7 @@ using WEBAPI.DTOs;
 
 namespace API_DEVIO_COMPLETA.Controllers
 {
+    [Authorize]
     [Route("api/produtos")]
     public class ProdutosController : MainController
     {
@@ -43,7 +45,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
-
+        [ClaimsAuthorize("Produtos", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<ProdutoDTO>> Adicionar(ProdutoDTO produtoDTO)
         {
@@ -59,6 +61,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
+        [ClaimsAuthorize("Produtos", "Adicionar")]
         [HttpPost("Adicionar")]
         public async Task<ActionResult<ProdutoDTO>> AdicionarAlternativo(
             [ModelBinder(BinderType = typeof(ProdutoModelBinder))] ProdutoImagemDTO produtoImagemDTO
@@ -76,6 +79,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoImagemDTO);
         }
 
+        [ClaimsAuthorize("Produtos", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Atualizar(Guid id, ProdutoDTO produtoDTO)
         {
@@ -108,7 +112,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
-
+        [ClaimsAuthorize("Produtos", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoDTO>> Excluir(Guid id)
         {

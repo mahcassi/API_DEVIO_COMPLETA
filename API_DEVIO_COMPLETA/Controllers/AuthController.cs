@@ -127,7 +127,7 @@ namespace API_DEVIO_COMPLETA.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    Claims = claims.Select(c => new ClaimDTO { Type = c.Type, Value = c.Value}).Where(c => c.Type == "Fornecedor")
+                    Claims = claims.Select(c => new ClaimDTO { Type = c.Type, Value = c.Value}).Where(c => c.Type == "Fornecedor" || c.Type == "Produto")
                 }
             };
 
