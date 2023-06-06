@@ -30,6 +30,8 @@ namespace WEBAPI
 
             builder.Services.WebApiConfig();
 
+            builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -38,9 +40,14 @@ namespace WEBAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseAuthentication();
 
+            app.UseAuthorization();
+
             app.UseMvcConfiguration();
+
+            app.UseSession();
 
             app.MapControllers();
 
