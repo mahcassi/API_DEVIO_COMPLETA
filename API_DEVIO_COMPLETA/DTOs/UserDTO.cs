@@ -26,4 +26,24 @@ namespace API_DEVIO_COMPLETA.DTOs
         [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
         public string Password { get; set; }
     }
+
+    public class UserTokenDTO
+    {
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public IEnumerable<ClaimDTO> Claims { get; set; }
+    }
+
+    public class LoginResponseDTO
+    {
+        public string AccessToken { get; set; }
+        public double ExpiresIn { get; set; }
+        public UserTokenDTO User { get; set; }
+    }
+
+    public class ClaimDTO
+    {
+        public string Value { get; set; }
+        public string Type { get; set; }
+    }
 }
