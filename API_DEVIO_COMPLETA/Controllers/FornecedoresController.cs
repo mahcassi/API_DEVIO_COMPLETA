@@ -1,13 +1,16 @@
-﻿using AutoMapper;
+﻿using API_DEVIO_COMPLETA.Extensions;
+using AutoMapper;
 using Data.Data.Repository;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WEBAPI.DTOs;
 
 namespace WEBAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class FornecedoresController : MainController
     {
@@ -43,6 +46,7 @@ namespace WEBAPI.Controllers
             return Ok(fornecedor);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<FornecedorDTO>> Adicionar(FornecedorDTO fornecedorDTO)
         {
@@ -53,6 +57,7 @@ namespace WEBAPI.Controllers
             return CustomResponse(fornecedorDTO);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<FornecedorDTO>> Atualizar(Guid id, FornecedorDTO fornecedorDTO)
         {
@@ -65,6 +70,7 @@ namespace WEBAPI.Controllers
             return CustomResponse(fornecedorDTO);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<FornecedorDTO>> Excluir(Guid id)
         {
@@ -83,6 +89,7 @@ namespace WEBAPI.Controllers
             return _mapper.Map<EnderecoDTO>(await _enderecoRepository.ObterPorId(id)); ;
         }
 
+        [ClaimsAuthorize("Fornecedor", "Atualizar")]
         [HttpPut("atualizar-endereco/{id:guid}")]
         public async Task<ActionResult> AtualizarEndereco(Guid id, EnderecoDTO enderecoDTO)
         {
@@ -96,13 +103,13 @@ namespace WEBAPI.Controllers
         }
 
         [NonAction]
-        public async Task<FornecedorDTO> ObterFornecedorProdutosEndereco(Guid id)
+        private async Task<FornecedorDTO> ObterFornecedorProdutosEndereco(Guid id)
         {
             return _mapper.Map<FornecedorDTO>(await _fornecedorRepository.ObterFornecedorProdutosEndereco(id));
         }
 
         [NonAction]
-        public async Task<FornecedorDTO> ObterFornecedorEndereco(Guid id)
+        private async Task<FornecedorDTO> ObterFornecedorEndereco(Guid id)
         {
             return _mapper.Map<FornecedorDTO>(await _fornecedorRepository.ObterFornecedorEndereco(id));
         }
