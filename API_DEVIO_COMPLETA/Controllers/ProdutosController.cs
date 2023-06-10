@@ -45,7 +45,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
-        [ClaimsAuthorize("Produtos", "Adicionar")]
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<ProdutoDTO>> Adicionar(ProdutoDTO produtoDTO)
         {
@@ -61,7 +61,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
-        [ClaimsAuthorize("Produtos", "Adicionar")]
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost("Adicionar")]
         public async Task<ActionResult<ProdutoDTO>> AdicionarAlternativo(
             [ModelBinder(BinderType = typeof(ProdutoModelBinder))] ProdutoImagemDTO produtoImagemDTO
@@ -79,7 +79,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoImagemDTO);
         }
 
-        [ClaimsAuthorize("Produtos", "Atualizar")]
+        [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Atualizar(Guid id, ProdutoDTO produtoDTO)
         {
@@ -112,7 +112,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             return CustomResponse(produtoDTO);
         }
 
-        [ClaimsAuthorize("Produtos", "Excluir")]
+        [ClaimsAuthorize("Produto", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoDTO>> Excluir(Guid id)
         {
