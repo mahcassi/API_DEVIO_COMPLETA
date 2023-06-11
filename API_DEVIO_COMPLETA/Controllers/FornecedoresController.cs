@@ -21,7 +21,7 @@ namespace WEBAPI.Controllers
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository, 
             IMapper mapper, IFornecedorService fornecedorService, IEnderecoRepository enderecoRepository,
-            INotificador notificador): base(notificador)
+            INotificador notificador, IUser user): base(notificador, user)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
