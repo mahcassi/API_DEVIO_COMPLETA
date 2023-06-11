@@ -3,6 +3,7 @@ using Data.Data.Context;
 using Data.Data.Repository;
 using DevIO.Business.Notificacoes;
 using DevIO.Business.Services;
+using API_DEVIO_COMPLETA.Extensions;
 
 namespace WEBAPI.Configuration
 {
@@ -18,6 +19,9 @@ namespace WEBAPI.Configuration
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<IFornecedorService, FornecedorService>();
             services.AddScoped<IProdutoService, ProdutoService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
 
             return services;
         }
