@@ -39,6 +39,9 @@ namespace WEBAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            } else
+            {
+                app.UseHsts();
             }
 
             app.UseAuthentication();

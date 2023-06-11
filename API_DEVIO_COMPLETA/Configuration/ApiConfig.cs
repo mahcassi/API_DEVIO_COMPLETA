@@ -27,8 +27,8 @@ namespace API_DEVIO_COMPLETA.Configuration
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
 
-            app.UseCors("AllowOrigin");
             app.UseHttpsRedirection();
+            app.UseCors("AllowOrigin");
 
             return app;
         }
