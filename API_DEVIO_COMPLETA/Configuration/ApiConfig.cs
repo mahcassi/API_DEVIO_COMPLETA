@@ -13,11 +13,19 @@ namespace API_DEVIO_COMPLETA.Configuration
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowOrigin", builder =>
+                options.AddPolicy("Development", builder =>
                 {
                     builder.WithOrigins("http://localhost:4200")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
+                });
+
+                options.AddPolicy("Production", builder =>
+                {
+                    builder.WithMethods("GET")
+                        .AllowAnyOrigin()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader();
                 });
             });
 
@@ -28,7 +36,6 @@ namespace API_DEVIO_COMPLETA.Configuration
         {
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowOrigin");
 
             return app;
         }

@@ -37,10 +37,12 @@ namespace WEBAPI
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseCors("Development");
                 app.UseSwagger();
                 app.UseSwaggerUI();
             } else
             {
+                app.UseCors("Production");
                 app.UseHsts();
             }
 
