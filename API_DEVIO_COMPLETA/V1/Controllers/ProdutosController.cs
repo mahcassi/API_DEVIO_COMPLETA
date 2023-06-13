@@ -1,4 +1,5 @@
-﻿using API_DEVIO_COMPLETA.DTOs;
+﻿using API_DEVIO_COMPLETA.Controllers;
+using API_DEVIO_COMPLETA.DTOs;
 using API_DEVIO_COMPLETA.Extensions;
 using AutoMapper;
 using DevIO.Business.Intefaces;
@@ -6,10 +7,9 @@ using DevIO.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Intrinsics.X86;
-using WEBAPI.Controllers;
 using WEBAPI.DTOs;
 
-namespace API_DEVIO_COMPLETA.Controllers
+namespace API_DEVIO_COMPLETA.V1.Controllers
 {
     [Authorize]
     [ApiVersion("1.0")]
@@ -20,9 +20,9 @@ namespace API_DEVIO_COMPLETA.Controllers
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
-        public ProdutosController(IProdutoRepository produtoRepository, 
-                                  IProdutoService produtoService, 
-                                  IMapper mapper, 
+        public ProdutosController(IProdutoRepository produtoRepository,
+                                  IProdutoService produtoService,
+                                  IMapper mapper,
                                   INotificador notificador, IUser user) : base(notificador, user)
         {
             _produtoRepository = produtoRepository;
@@ -72,7 +72,7 @@ namespace API_DEVIO_COMPLETA.Controllers
 
             var imgPrefixo = Guid.NewGuid() + "_";
 
-            if (! await UploadArquivoAlternativo(produtoImagemDTO.ImagemUpload, imgPrefixo)) return CustomResponse();
+            if (!await UploadArquivoAlternativo(produtoImagemDTO.ImagemUpload, imgPrefixo)) return CustomResponse();
 
             produtoImagemDTO.Imagem = imgPrefixo + produtoImagemDTO.ImagemUpload.FileName;
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoImagemDTO));
@@ -95,7 +95,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             {
                 var imagemNome = Guid.NewGuid() + "_" + produtoDTO.Imagem;
 
-                if(!UploadArquivo(produtoDTO.ImagemUpload, imagemNome))
+                if (!UploadArquivo(produtoDTO.ImagemUpload, imagemNome))
                 {
                     return CustomResponse(ModelState);
                 }
@@ -108,7 +108,7 @@ namespace API_DEVIO_COMPLETA.Controllers
             produtoAtualizacao.Valor = produtoDTO.Valor;
             produtoAtualizacao.Ativo = produtoDTO.Ativo;
 
-           await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
             return CustomResponse(produtoDTO);
         }

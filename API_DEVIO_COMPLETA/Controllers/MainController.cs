@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using WEBAPI.DTOs;
 using DevIO.Business.Notificacoes;
 
-namespace WEBAPI.Controllers
+namespace API_DEVIO_COMPLETA.Controllers
 {
     [ApiController]
     public abstract class MainController : ControllerBase
@@ -44,7 +44,7 @@ namespace WEBAPI.Controllers
             {
                 success = false,
                 errors = _notificador.ObterNotificacoes().Select(m => m.Mensagem)
-            }); 
+            });
         }
 
         protected ActionResult CustomResponse(ModelStateDictionary modelState)

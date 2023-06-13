@@ -8,11 +8,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WEBAPI.Controllers;
 using System;
+using API_DEVIO_COMPLETA.Controllers;
 
-
-namespace API_DEVIO_COMPLETA.Controllers
+namespace API_DEVIO_COMPLETA.V1.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}")]
@@ -121,14 +120,15 @@ namespace API_DEVIO_COMPLETA.Controllers
             var encodedToken = tokenHandler.WriteToken(token); //retorna uma versão codificada do token como uma string.
                                                                //Isso significa que o token
                                                                //é convertido em uma sequência de caracteres seguros e legíveis.
-            var response = new LoginResponseDTO { 
-                AccessToken = encodedToken, 
+            var response = new LoginResponseDTO
+            {
+                AccessToken = encodedToken,
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
                 User = new UserTokenDTO
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    Claims = claims.Select(c => new ClaimDTO { Type = c.Type, Value = c.Value}).Where(c => c.Type == "Fornecedor" || c.Type == "Produto")
+                    Claims = claims.Select(c => new ClaimDTO { Type = c.Type, Value = c.Value }).Where(c => c.Type == "Fornecedor" || c.Type == "Produto")
                 }
             };
 

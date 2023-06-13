@@ -1,4 +1,5 @@
-﻿using API_DEVIO_COMPLETA.Extensions;
+﻿using API_DEVIO_COMPLETA.Controllers;
+using API_DEVIO_COMPLETA.Extensions;
 using AutoMapper;
 using Data.Data.Repository;
 using DevIO.Business.Intefaces;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WEBAPI.DTOs;
 
-namespace WEBAPI.Controllers
+namespace API_DEVIO_COMPLETA.V1.Controllers
 {
     [Authorize]
     [ApiVersion("1.0")]
@@ -20,9 +21,9 @@ namespace WEBAPI.Controllers
         private readonly IFornecedorService _fornecedorService;
         private readonly IEnderecoRepository _enderecoRepository;
 
-        public FornecedoresController(IFornecedorRepository fornecedorRepository, 
+        public FornecedoresController(IFornecedorRepository fornecedorRepository,
             IMapper mapper, IFornecedorService fornecedorService, IEnderecoRepository enderecoRepository,
-            INotificador notificador, IUser user): base(notificador, user)
+            INotificador notificador, IUser user) : base(notificador, user)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
@@ -64,7 +65,7 @@ namespace WEBAPI.Controllers
         {
             if (id != fornecedorDTO.Id) return BadRequest();
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState); 
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorDTO));
 
