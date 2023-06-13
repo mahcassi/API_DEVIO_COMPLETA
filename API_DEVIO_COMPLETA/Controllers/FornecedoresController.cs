@@ -11,7 +11,8 @@ using WEBAPI.DTOs;
 namespace WEBAPI.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class FornecedoresController : MainController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
