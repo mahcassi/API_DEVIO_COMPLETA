@@ -4,6 +4,9 @@ using Data.Data.Repository;
 using DevIO.Business.Notificacoes;
 using DevIO.Business.Services;
 using API_DEVIO_COMPLETA.Extensions;
+using Microsoft.Extensions.Options;
+using API_DEVIO_COMPLETA.Configuration;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace WEBAPI.Configuration
 {
@@ -22,6 +25,8 @@ namespace WEBAPI.Configuration
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspNetUser>();
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
             return services;
         }
