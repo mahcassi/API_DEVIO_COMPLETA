@@ -1,7 +1,9 @@
 
 using API_DEVIO_COMPLETA.Configuration;
 using Data.Data.Context;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using WEBAPI.Configuration;
 
 namespace WEBAPI
@@ -15,7 +17,6 @@ namespace WEBAPI
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<MeuDbContext>(options =>
             {
@@ -30,16 +31,18 @@ namespace WEBAPI
 
             builder.Services.WebApiConfig();
 
+            builder.Services.AddSwaggerConfig();
+
             builder.Services.AddSession();
 
             var app = builder.Build();
+            var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseCors("Development");
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerConfig(apiVersionDescriptionProvider);
             } else
             {
                 app.UseCors("Production");
