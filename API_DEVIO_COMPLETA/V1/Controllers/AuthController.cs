@@ -20,6 +20,7 @@ namespace API_DEVIO_COMPLETA.V1.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly ILogger _logger;
 
 
         //IOptions é usada para representar as opções de configuração em um aplicativo ASP.NET Core.
@@ -27,11 +28,12 @@ namespace API_DEVIO_COMPLETA.V1.Controllers
         //partes do seu aplicativo e injete-as onde forem necessárias.
         public AuthController(INotificador notificador,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, IUser user) : base(notificador, user)
+            UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, IUser user, ILogger<AuthController> logger) : base(notificador, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _logger = logger;
         }
 
         [HttpPost("nova-conta")]
@@ -71,6 +73,7 @@ namespace API_DEVIO_COMPLETA.V1.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Usuario " + loginUser.Email + " logado com sucesso");
                 return CustomResponse(await GerarJsonWebToken(loginUser.Email));
             }
 

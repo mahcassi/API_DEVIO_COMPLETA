@@ -53,7 +53,7 @@ namespace API_DEVIO_COMPLETA.Configuration
 
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
-            app.UseMiddleware<SwaggerAuthorizedMiddleware>();
+            //app.UseMiddleware<SwaggerAuthorizedMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(op =>
             {
