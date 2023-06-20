@@ -35,6 +35,8 @@ namespace WEBAPI
 
             builder.Services.AddSession();
 
+            builder.Services.AddLoggingConfiguration();
+
             var app = builder.Build();
             var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
@@ -42,18 +44,21 @@ namespace WEBAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseCors("Development");
-                app.UseSwaggerConfig(apiVersionDescriptionProvider);
             } else
             {
                 app.UseCors("Production");
                 app.UseHsts();
             }
 
+            app.UseSwaggerConfig(apiVersionDescriptionProvider);
+
             app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseMvcConfiguration();
+
+            app.UseLoggingConfiguration();
 
             app.UseSession();
 
