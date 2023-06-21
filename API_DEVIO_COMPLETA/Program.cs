@@ -2,6 +2,8 @@
 using API_DEVIO_COMPLETA.Configuration;
 using API_DEVIO_COMPLETA.Extensions;
 using Data.Data.Context;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -31,7 +33,7 @@ namespace WEBAPI
             builder.Services
                 .AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
 
-            builder.Services.AddHealthChecksUI().AddSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+            builder.Services.AddHealthChecksUI().AddSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")); ;
 
             builder.Services.ResolveDependencies();
 
@@ -69,11 +71,18 @@ namespace WEBAPI
 
             app.UseLoggingConfiguration();
 
-            app.UseHealthChecks("/api/hc");
-
-            app.UseHealthChecksUI(options =>
+            app.UseHealthChecks("/api/hc", new HealthCheckOptions
             {
+                Predicate = p => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            app.UseHealthChecksUI(options => { 
                 options.UIPath = "/api/hc-ui";
+                options.ResourcesPath = $"{options.UIPath}/resources";
+                options.UseRelativeApiPath = false;
+                options.UseRelativeResourcesPath = false;
+                options.UseRelativeWebhookPath = false;
             });
 
             app.UseSession();
