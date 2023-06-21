@@ -14,7 +14,7 @@ namespace WEBAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-          
+
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +27,11 @@ namespace WEBAPI
             builder.Services.AddIdentityConfiguration(builder.Configuration);
 
             builder.Services.AddAutoMapper(typeof(Program));
+
+            builder.Services
+                .AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+
+            builder.Services.AddHealthChecksUI().AddSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             builder.Services.ResolveDependencies();
 
@@ -45,7 +50,8 @@ namespace WEBAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseCors("Development");
-            } else
+            }
+            else
             {
                 app.UseCors("Production");
                 app.UseHsts();
@@ -62,6 +68,13 @@ namespace WEBAPI
             app.UseMvcConfiguration();
 
             app.UseLoggingConfiguration();
+
+            app.UseHealthChecks("/api/hc");
+
+            app.UseHealthChecksUI(options =>
+            {
+                options.UIPath = "/api/hc-ui";
+            });
 
             app.UseSession();
 

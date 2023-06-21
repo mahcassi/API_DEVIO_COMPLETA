@@ -18,6 +18,9 @@ namespace API_DEVIO_COMPLETA.V2.Controllers
         [HttpGet]
         public string Valor()
         {
+
+            //throw new Exception("testeeee");
+
             _logger.LogTrace("log de trace"); // log minimo para desenvolvimento
             _logger.LogDebug("log de debug"); // log de info de debug para desenvolvimento
 
