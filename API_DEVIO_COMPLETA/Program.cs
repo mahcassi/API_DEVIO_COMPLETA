@@ -1,5 +1,6 @@
 
 using API_DEVIO_COMPLETA.Configuration;
+using API_DEVIO_COMPLETA.Extensions;
 using Data.Data.Context;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,8 @@ namespace WEBAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseMvcConfiguration();
 

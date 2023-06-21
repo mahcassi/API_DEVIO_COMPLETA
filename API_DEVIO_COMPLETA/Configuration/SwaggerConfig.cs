@@ -142,6 +142,7 @@ namespace API_DEVIO_COMPLETA.Configuration
     {
         private readonly RequestDelegate _next;
 
+        //next é uma referência para o próximo middleware no pipeline de solicitação.
         public SwaggerAuthorizedMiddleware(RequestDelegate next)
         {
             _next = next;
