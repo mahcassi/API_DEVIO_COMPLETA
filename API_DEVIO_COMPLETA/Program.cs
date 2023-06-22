@@ -2,11 +2,8 @@
 using API_DEVIO_COMPLETA.Configuration;
 using API_DEVIO_COMPLETA.Extensions;
 using Data.Data.Context;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using WEBAPI.Configuration;
 
 namespace WEBAPI
@@ -30,13 +27,6 @@ namespace WEBAPI
 
             builder.Services.AddAutoMapper(typeof(Program));
 
-            builder.Services
-                .AddHealthChecks()
-                .AddCheck("Produtos", new SqlServerHealthCheck(builder.Configuration.GetConnectionString("DefaultConnection")))
-                .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
-
-            builder.Services.AddHealthChecksUI().AddInMemoryStorage();
-
             builder.Services.ResolveDependencies();
 
             builder.Services.WebApiConfig();
@@ -45,7 +35,7 @@ namespace WEBAPI
 
             builder.Services.AddSession();
 
-            builder.Services.AddLoggingConfiguration();
+            builder.Services.AddLoggingConfiguration(builder.Configuration);
 
             var app = builder.Build();
             var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
@@ -72,20 +62,6 @@ namespace WEBAPI
             app.UseMvcConfiguration();
 
             app.UseLoggingConfiguration();
-
-            app.UseHealthChecks("/api/hc", new HealthCheckOptions
-            {
-                Predicate = p => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
-
-            app.UseHealthChecksUI(options => { 
-                options.UIPath = "/api/hc-ui";
-                options.ResourcesPath = $"{options.UIPath}/resources";
-                options.UseRelativeApiPath = false;
-                options.UseRelativeResourcesPath = false;
-                options.UseRelativeWebhookPath = false;
-            });
 
             app.UseSession();
 
