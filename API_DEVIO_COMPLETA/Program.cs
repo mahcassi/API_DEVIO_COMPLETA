@@ -31,9 +31,11 @@ namespace WEBAPI
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services
-                .AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+                .AddHealthChecks()
+                .AddCheck("Produtos", new SqlServerHealthCheck(builder.Configuration.GetConnectionString("DefaultConnection")))
+                .AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
 
-            builder.Services.AddHealthChecksUI().AddSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")); ;
+            builder.Services.AddHealthChecksUI().AddInMemoryStorage();
 
             builder.Services.ResolveDependencies();
 
