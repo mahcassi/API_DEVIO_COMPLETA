@@ -8,7 +8,7 @@ A API utiliza autenticação JWT (JSON Web Token) para garantir a segurança das
 A API segue uma estratégia de versionamento para garantir a compatibilidade entre diferentes versões da API. As versões são representadas no caminho da URL. Por exemplo, para acessar a versão 1 da API, a URL seria /api/v1/.... Isso permite que você mantenha a estabilidade de suas integrações, mesmo quando novas versões da API forem lançadas.
 
 ## Documentação
-A documentação da API foi gerada utilizando o Swagger, uma ferramenta popular para documentação de APIs. Ela fornece informações detalhadas sobre os endpoints disponíveis, os parâmetros aceitos, as respostas retornadas e exemplos de uso. A documentação Swagger está disponível no seguinte link:
+A documentação da API foi gerada utilizando o Swagger, uma ferramenta popular para documentação de APIs. Ela fornece informações detalhadas sobre os endpoints disponíveis, os parâmetros aceitos, as respostas retornadas e exemplos de uso. 
 
 ## Logging
 A API utiliza logging para registrar informações relevantes sobre as operações e eventos do sistema. Os logs são importantes para fins de depuração, monitoramento e análise de problemas. É recomendado que você configure um sistema de logging apropriado para capturar os registros da API e armazená-los de forma adequada.
