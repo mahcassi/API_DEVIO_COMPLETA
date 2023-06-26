@@ -10,9 +10,6 @@ A API segue uma estratégia de versionamento para garantir a compatibilidade ent
 ## Documentação
 A documentação da API foi gerada utilizando o Swagger, uma ferramenta popular para documentação de APIs. Ela fornece informações detalhadas sobre os endpoints disponíveis, os parâmetros aceitos, as respostas retornadas e exemplos de uso. 
 
-## Logging
-A API utiliza logging para registrar informações relevantes sobre as operações e eventos do sistema. Os logs são importantes para fins de depuração, monitoramento e análise de problemas. 
-
 ## Monitoramento
 O monitoramento é uma parte crucial da operação da API de Cadastro de Produtos e Fornecedores. É altamente recomendado configurar uma solução de monitoramento para acompanhar o desempenho, a disponibilidade e a integridade da API.
 
