@@ -11,7 +11,9 @@ A API segue uma estratégia de versionamento para garantir a compatibilidade ent
 A documentação da API foi gerada utilizando o Swagger, uma ferramenta popular para documentação de APIs. Ela fornece informações detalhadas sobre os endpoints disponíveis, os parâmetros aceitos, as respostas retornadas e exemplos de uso. 
 
 ## Logging
-A API utiliza logging para registrar informações relevantes sobre as operações e eventos do sistema. Os logs são importantes para fins de depuração, monitoramento e análise de problemas. É recomendado que você configure um sistema de logging apropriado para capturar os registros da API e armazená-los de forma adequada.
+A API utiliza logging para registrar informações relevantes sobre as operações e eventos do sistema. Os logs são importantes para fins de depuração, monitoramento e análise de problemas. 
 
 ## Monitoramento
-O monitoramento é essencial para garantir o desempenho e a disponibilidade da API. É altamente recomendado configurar uma solução de monitoramento para acompanhar a saúde da API, como o tempo de resposta, a taxa de erros e a disponibilidade. Existem diversas ferramentas disponíveis para isso, como o Prometheus, Grafana, New Relic, entre outras. Certifique-se de configurar e utilizar uma solução de monitoramento adequada para a sua API.
+O monitoramento é uma parte crucial da operação da API de Cadastro de Produtos e Fornecedores. É altamente recomendado configurar uma solução de monitoramento para acompanhar o desempenho, a disponibilidade e a integridade da API.
+
+Nossa API utiliza o elmah.io e HealthCheck para monitoramento.
